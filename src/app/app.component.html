@@ -1,8 +1,18 @@
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>&nbsp;
-  <a routerLink="/heroes">Heroes</a>
+<mat-toolbar>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item routerLink="/dashboard">Market</button>
+    <button mat-menu-item routerLink="/traders">Traders</button>
+  </mat-menu>
 
-</nav>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <h2>{{title}}</h2>
+  <!--<mat-chip-list>-->
+  <!--<mat-chip routerLink="/dashboard">Market</mat-chip>-->
+  <!--<mat-chip routerLink="/traders">Traders</mat-chip>-->
+  <!--</mat-chip-list>-->
+</mat-toolbar>
+
 <router-outlet></router-outlet>
-<app-messages></app-messages>
+ 

@@ -1,18 +1,22 @@
-<div *ngIf="hero">
+<mat-card *ngIf="hero" class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title><strong>{{hero.name}} Details</strong></mat-card-title>
+    <mat-card-subtitle><strong>ID {{hero.id}}</strong></mat-card-subtitle>
+  </mat-card-header>
 
-  <button (click)="goBack()">go back</button>
+  <mat-card-content>
+    <form>
+      <mat-form-field class="example-full-width">
+        <input [(ngModel)]="hero.name" matInput placeholder="Name">
+      </mat-form-field>
+    </form>
 
-  <h2>{{hero.name | uppercase}} Details</h2>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
+  </mat-card-actions>
+</mat-card>
+<br>
 
-  <div><span>id: </span>{{hero.id}}</div>
-
-  <div>
-    <label>name:
-      <input [(ngModel)]="hero.name" placeholder="name">
-    </label>
-  </div>
-
-  <button (click)="save()">save</button>
-
-
-</div>

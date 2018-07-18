@@ -1,0 +1,116 @@
+<mat-card>
+
+  <h2>Trader {{trader?.getName()}}</h2>
+  <form class="example-form">
+    <mat-form-field>
+      <input matInput disabled [value]="trader?.getUnreleasedPnL()" placeholder="Unreleased PnL">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput disabled [value]="trader?.getReleasedPnL()" placeholder="Released PnL">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput disabled [value]="trader?.getTotalPnL()" placeholder="Total PnL">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+  </form>
+
+  <h2>Buy Stocks</h2>
+  <div class="example-container">
+    <form>
+      <mat-form-field>
+        <input type="text" matInput class="form-control" [formControl]="symbolInput" [matAutocomplete]="auto"
+               id="stockInput">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let stock of filteredStocks | async" [value]="stock.getSymbol()">{{stock.getSymbol()}}
+            ({{stock.getCompany()}})
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selected">
+        <input class="form-control" matInput type="text" id="stock" placeholder="Stock" disabled name="Stock"
+               [value]="selected.getCompany()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input class="form-control" matInput type="number" [formControl]="countInput" id="count" placeholder="Count"
+               name="Count">
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="buyStock()" id="buyStockBtn">Buy Stock</button>
+    </form>
+  </div>
+
+  <h2>Open Positions</h2>
+
+  <table mat-table [dataSource]="dataSourceTrade" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="stockinfo">
+      <th mat-header-cell *matHeaderCellDef> Mark</th>
+      <td mat-cell *matCellDef="let element"> {{element.getStockInfo()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="mark">
+      <th mat-header-cell *matHeaderCellDef> Mark</th>
+      <td mat-cell *matCellDef="let element"> {{element.getMark()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="count">
+      <th mat-header-cell *matHeaderCellDef> Count</th>
+      <td mat-cell *matCellDef="let element"> {{element.getCount()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="unreleasedpnl">
+      <th mat-header-cell *matHeaderCellDef> Unreleased PnL</th>
+      <td mat-cell *matCellDef="let element"> {{element.getUnreleasedPnL()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="close">
+      <th mat-header-cell *matHeaderCellDef> Unreleased PnL</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="closeTrade(element)">Close</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsTrade"></tr>
+    <tr mat-row *matRowDef="let row; columns:displayedColumnsTrade;"></tr>
+  </table>
+
+  <h2>Closed Trades</h2>
+
+  <table mat-table [dataSource]="dataSourceTradeClosed" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="stockinfo">
+      <th mat-header-cell *matHeaderCellDef> Symbol</th>
+      <td mat-cell *matCellDef="let element"> {{element.getStockInfo()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="mark">
+      <th mat-header-cell *matHeaderCellDef> Mark</th>
+      <td mat-cell *matCellDef="let element"> {{element.getMark()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="closeprice">
+      <th mat-header-cell *matHeaderCellDef> Close Price</th>
+      <td mat-cell *matCellDef="let element"> {{element.getClosePrice()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="count">
+      <th mat-header-cell *matHeaderCellDef>Count</th>
+      <td mat-cell *matCellDef="let element"> {{element.getCount()}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="close">
+      <th mat-header-cell *matHeaderCellDef> PnL</th>
+      <td mat-cell *matCellDef="let element"> {{element.getPnL()}}</td>
+
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsTradeClosed"></tr>
+    <tr mat-row *matRowDef="let row; columns:displayedColumnsTradeClosed;"></tr>
+  </table>
+
+
+</mat-card>
