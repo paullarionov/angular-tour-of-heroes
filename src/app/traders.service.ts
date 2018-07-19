@@ -10,7 +10,6 @@ export class TradersService {
 
   constructor(private httpClient: HttpClient) {
     this.traders = this.getMockTraders();
-
   }
 
   private getMockTraders(): Trader[] {
@@ -33,5 +32,9 @@ export class TradersService {
       setTimeout(() =>
         resolve(Promise.resolve(this.traders.find(t => name === t.getName()))), 0);
     });
+  }
+
+  getTradersInstant(): Trader[] {
+    return this.traders;
   }
 }

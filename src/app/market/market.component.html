@@ -4,10 +4,10 @@
   <div class="example-container">
     <form>
       <mat-form-field>
-        <input class="form-control" #symbol matInput placeholder="Company">
+        <input id="company" class="form-control" #symbol matInput placeholder="Company">
       </mat-form-field>
       <mat-form-field>
-        <input class="form-control" #company matInput placeholder="Symbol">
+        <input id="symbol" class="form-control" #company matInput placeholder="Symbol">
       </mat-form-field>
       <button mat-raised-button color="primary"
               (click)="add(symbol.value, company.value); symbol.value=''; company.value = ''">Add Stock
@@ -15,28 +15,30 @@
     </form>
   </div>
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+
+  <table mat-table matSort [dataSource]="dataSourceStock" class="mat-elevation-z8" *ngIf="!loading">
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol</th>
       <td mat-cell *matCellDef="let element"> {{element.symbol}}</td>
     </ng-container>
 
     <!-- Company Column -->
     <ng-container matColumnDef="company">
-      <th mat-header-cell *matHeaderCellDef> Company</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Company</th>
       <td mat-cell *matCellDef="let element"> {{element.company}}</td>
     </ng-container>
 
     <!-- Price Column -->
     <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef> Price</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>
       <td mat-cell *matCellDef="let element"> {{element.price}}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsStock"></tr>
+    <tr mat-row *matRowDef="let row; columns:displayedColumnsStock;"></tr>
   </table>
 
 

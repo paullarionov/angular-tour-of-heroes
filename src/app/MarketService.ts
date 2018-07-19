@@ -13,4 +13,7 @@ export interface MarketService {
   buyStock(symbol: string, count: number): Trade;
 
   getStock(symbol: string): Stock;
+
+  getAll(): Promise<Stock[]>;
+
 }

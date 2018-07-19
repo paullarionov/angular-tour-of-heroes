@@ -1,5 +1,18 @@
+import {MarketService} from '../MarketService';
+
 export class Stock {
-  constructor(public symbol: string, public company: string, public price: number = 0) {
+
+  public price: number = 0;
+
+  constructor(public symbol: string, public company: string, private marketService: MarketService) {
+    this.price = marketService.getPrice(this.symbol);
+
+    setInterval(() => {
+      this.price = marketService.getUpdatedPrice(this.price);
+      if (this.price <= 0) {
+        this.price = marketService.getPrice(this.symbol);
+      }
+    }, 500);
   }
 
   getSymbol(): string {

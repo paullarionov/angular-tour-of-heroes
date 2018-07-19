@@ -9,7 +9,7 @@ import {Trade} from './domain/Trade';
 @Injectable({
   providedIn: 'root'
 })
-export class MarkerServiceImpl implements MarketService {
+export class MarketServiceImpl implements MarketService {
   private counter: number;
   stocks: Stock[] = [];
 
@@ -17,7 +17,7 @@ export class MarkerServiceImpl implements MarketService {
     this.getStockData().subscribe(
       data => {
         for (let md of data) {
-          this.stocks.push(new Stock(md.symbol, md.company));
+          this.stocks.push(new Stock(md.symbol, md.company, this));
         }
       },
       error => {
@@ -25,28 +25,11 @@ export class MarkerServiceImpl implements MarketService {
       }
     );
 
-    this.stocks.forEach(i => i.price = this.getPrice(i.symbol));
-    setInterval(() => {
-      this.stocks.forEach(i => {
-        i.price = this.getUpdatedPrice(i.price);
-        if (i.price <= 0) {
-          i.price = this.getPrice(i.symbol);
-        }
-      });
-    }, 500);
   }
 
 
   private getStockData(): Observable<MarketData[]> {
     return this.httpClient.get<MarketData[]>('assets/market-data.json');
-  }
-
-  private getMockStocks(): Stock[] {
-    let stocks: Stock[] = [];
-    stocks.push(new Stock('BA', 'Boeing'));
-    stocks.push(new Stock('CAT', 'Caterpillar'));
-    stocks.push(new Stock('KO', 'Coca-Cola'));
-    return stocks;
   }
 
   addStock(stock: Stock) {
@@ -84,4 +67,9 @@ export class MarkerServiceImpl implements MarketService {
   getStock(symbol: string): Stock {
     return this.stocks.find(stock => stock.getSymbol() == symbol);
   }
+
+  getStocks(): Stock[] {
+    return this.stocks;
+  }
+
 }

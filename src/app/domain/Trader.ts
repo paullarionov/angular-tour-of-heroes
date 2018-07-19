@@ -21,11 +21,11 @@ export class Trader {
   }
 
   getOpenTrades(): Trade[] {
-    return this.portfolio.filter(trade => trade.isOpen);
+    return this.portfolio.filter(trade => trade.isOpen());
   }
 
   getClosedTrades(): Trade[] {
-    return this.portfolio.filter(trade => !trade.isOpen);
+    return this.portfolio.filter(trade => !trade.isOpen());
   }
 
   private getRoundedPnL(pnl): number {

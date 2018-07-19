@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TradersService} from '../traders.service';
 import {Trader} from '../domain/Trader';
 import {Trade} from '../domain/Trade';
-import {MarkerServiceImpl} from '../marker.service';
+import {MarketServiceImpl} from '../market.service';
 import {Stock} from '../domain/Stock';
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class TraderDetailsComponent implements OnInit {
   dataSourceTradeClosed: MatTableDataSource<Trade>;
   displayedColumnsTradeClosed: string[] = ['stockinfo', 'mark', 'closeprice', 'count', 'close'];
 
-  constructor(private tradersService: TradersService, private marketService: MarkerServiceImpl, private location: Location, private activatedRoute: ActivatedRoute) {
+  constructor(private tradersService: TradersService, private marketService: MarketServiceImpl, private location: Location, private activatedRoute: ActivatedRoute) {
   }
 
   goBack(): void {

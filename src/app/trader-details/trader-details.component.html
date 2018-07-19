@@ -1,6 +1,7 @@
 <mat-card>
 
   <h2>Trader {{trader?.getName()}}</h2>
+
   <form class="example-form">
     <mat-form-field>
       <input matInput disabled [value]="trader?.getUnreleasedPnL()" placeholder="Unreleased PnL">
@@ -14,7 +15,6 @@
       <input matInput disabled [value]="trader?.getTotalPnL()" placeholder="Total PnL">
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="goBack()">Back</button>
   </form>
 
   <h2>Buy Stocks</h2>

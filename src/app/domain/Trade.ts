@@ -21,7 +21,7 @@ export class Trade {
     return this.mark;
   }
 
-  get isOpen(): boolean {
+  isOpen(): boolean {
     return this._isOpen;
   }
 

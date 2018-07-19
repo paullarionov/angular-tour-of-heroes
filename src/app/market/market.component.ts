@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Stock} from '../domain/Stock';
-import {MatTableDataSource} from '@angular/material';
-import {MarkerServiceImpl} from '../marker.service';
+import {MatSort, MatTableDataSource} from '@angular/material';
+import {MarketServiceImpl} from '../market.service';
 
 @Component({
   selector: 'app-market',
@@ -10,27 +10,45 @@ import {MarkerServiceImpl} from '../marker.service';
 })
 export class MarketComponent implements OnInit {
 
-  dataSource: MatTableDataSource<Stock>;
-  displayedColumns: string[] = ['symbol', 'company', 'price'];
+  dataSourceStock: MatTableDataSource<Stock>;
+  displayedColumnsStock: string[] = ['symbol', 'company', 'price'];
+  @ViewChild(MatSort) sort: MatSort = new MatSort();
 
-  constructor(private markerService: MarkerServiceImpl) {
+  loading: boolean = false;
+
+  constructor(public marketService: MarketServiceImpl) {
   }
 
   ngOnInit() {
     this.getAll();
   }
 
+
   public add(symbol: string, company: string) {
-    this.markerService.addStock(new Stock(symbol, company));
+    this.marketService.addStock(new Stock(symbol, company, this.marketService));
     this.getAll();
   }
 
   private getAll() {
-    this.markerService.getAll().then(d => this.refresh(d));
+    this.loading = true;
+    this.marketService.getAll().then(d => {
+        this.loading = false;
+        this.refresh(d);
+      },
+      i => this.loading = false
+    );
   }
 
   public refresh(all: any) {
-    this.dataSource = new MatTableDataSource<Stock>(all);
+    this.dataSourceStock = new MatTableDataSource<Stock>(all);
+    this.dataSourceStock.sort = this.sort;
+    this.dataSourceStock.sortingDataAccessor = (item, property) => {
+      console.log(`Sorting ${item} ${property}`);
+      switch (property) {
+        default:
+          return item[property];
+      }
+    };
   }
 
 }
